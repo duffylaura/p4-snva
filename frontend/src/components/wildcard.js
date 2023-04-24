@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
+  MDBBtn,
   MDBContainer,
   MDBRow,
   MDBCol,
@@ -19,11 +21,17 @@ const welcomeUser = () => {
             <div className="text-center">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
                 style={{width: '185px'}} alt="logo" />
-              <h4 className="mt-1 mb-5 pb-1"> Welcome </h4>
-              <p> You have successfully logged in. </p>
+              <h4 className="mt-1 mb-5 pb-1"> UH-Oh! Looks like there is nothing here! </h4>
+              <p> Why don't you return home and try again? </p>
             </div>
 
             
+
+            <Link to = '/'>
+                <div className="text-center pt-1 mb-5 pb-1">
+                <MDBBtn className="mb-4 w-100 gradient-custom-2">Take me home! </MDBBtn>
+                </div>
+            </Link>
 
           </div>
 
