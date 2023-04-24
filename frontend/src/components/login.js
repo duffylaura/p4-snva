@@ -1,0 +1,25 @@
+import React from 'react';
+
+const Login  = () => { 
+    
+    return (
+        <div>
+            <h1> LOGIN PAGE </h1>
+           <label>
+                Username or Email:  
+                <input name="input1" />
+            </label>
+
+            <label>
+                Password:  
+                <input name="pw" />
+            </label>
+            <button>
+                Login 
+            </button>
+        </div>
+
+        );
+    }
+
+export default Login; 
