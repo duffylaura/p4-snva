@@ -1,42 +1,62 @@
 
 import React, { useState } from "react";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Login  = (props) => { 
+
+    //set up navigation variable for redirection if successfully logged in
+    const navigate = useNavigate(); 
 
     // set initial form state to empty strings 
     const [formState, setFormState] = useState({email:'', password: ''});
 
     //function to use login authentication post route 
-    const loginAuthRoute = (data) => {
+    const loginAuthRoute =  async (data) => {
        const options = {
             method: 'POST',
             url: 'http://localhost:8077/api/v1/user/authenticate',
             headers: {'Content-Type': 'application/json'},
             data: {email: data.email, password: data.password}
           };
+          console.log("Dheeraj " + options); 
           
-          axios.request(options).then(function (response) {
-            console.log(response.data);
-            console.log("Status:  " + response.data.status)
-            if (response.data.status === 'success') {
-                return true; 
-            }
-          }).catch(function (error) {
-            console.error(error);
+        const response = await axios.request(options); 
+        
+        const responseStatus = await response.data.status; 
+
+        if (responseStatus === 'success') {
+            console.log("Success - You have been logged in.")
+            return true; 
+        } else {
+            console.log("You were unable to be logged in.")
             return false; 
-          });         
+        }
+
+        // original code works but needed async /await added in 
+        //   axios
+        //   .request(options)
+        //   .then(function async (response) {
+        //     console.log(response.data);
+        //     await (response.data.status); 
+        //     console.log("print response  " + response.data.status); 
+            
+        //     if (response.data.status === 'success') {
+        //         return true; 
+        //     }
+        //   }).catch(function (error) {
+        //     console.error(error);
+        //     return false; 
+        //   });         
 
     };
-
 
 
     // Handle change function 
     // update state based on form input changes
     const handleChange = (event) => {
         const { name, value } = event.target;
-        console.log(formState);
+        // console.log(formState);
         setFormState({
             ...formState,
             [name]: value,
@@ -47,23 +67,25 @@ const Login  = (props) => {
     // Submit form function 
     const handleFormSubmit = async (event) => {
         event.preventDefault(); 
-        console.log(formState); 
+        
+        console.log("formState is:  " + formState); 
+
         try {
-            const booleanResponse = await loginAuthRoute ({
-                variables: {...formState}
-            })
-            if (booleanResponse) {
+            const booleanResponse = await loginAuthRoute (formState);
+                // FUTURE TODO: set status of user Auth.login (data.login.token)
+            if (booleanResponse) { 
+                //If successfully logged in, redirect user to next page
                 console.log("user is logged in"); 
-                // set status of user Auth.login (data.login.token)
-                // redirect 
-                return redirect("/welcomeUser");
+                navigate("/welcomeUser");
             } else {
                 console.log("You are not logged in. No such user exists.")
+                alert("This user does not exist. Please register. Click OK to redirect to Registration.")
+                navigate("/register");
             }
         } catch (e) {
             console.error(e); 
         }
-        // clear form values
+        // // clear form values
         setFormState({
             email: '', 
             password: '',
@@ -78,7 +100,7 @@ const Login  = (props) => {
                 <label>
                     Email:  
                     <input 
-                    name="inputEmail"
+                    name="email"
                     type = "email"
                     placeholder= "Enter Email"
                     value = {formState.email}
@@ -88,7 +110,7 @@ const Login  = (props) => {
                 <label>
                     Password  
                     <input 
-                    name="inputPassword"
+                    name="password"
                     type = "password"
                     placeholder= "Enter Password"
                     value = {formState.password}
