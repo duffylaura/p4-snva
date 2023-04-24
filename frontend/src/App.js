@@ -5,6 +5,7 @@ import Home from './pages/home';
 import Login from './components/login';
 import Register from "./components/register";
 import WelcomeUser from './components/welcomeUser';
+import './App.css';
 
 function App() {
   return (
