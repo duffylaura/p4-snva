@@ -36,4 +36,8 @@ npm start
 
 *NOTE: Buidling this with the mindset that we will be adding to this and turning it into an ecommerce platform.*
 
+</br>
 
+## Prototype 
+
+[Link to Template Prototype from SNVA](https://chawkbazar.vercel.app/)
