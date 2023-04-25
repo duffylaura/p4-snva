@@ -6,8 +6,10 @@ import {
 }
 from 'mdb-react-ui-kit';
 import Navbar from '../components/navbar';
+import getAuthToken from '../helpers/getAuthToken';
 
-const welcomeUser = () => {
+const profile = () => {
+  console.log('check token with get method ' + getAuthToken()); 
     return (
 
      <div>
@@ -52,4 +54,4 @@ const welcomeUser = () => {
     )
 }
 
-export default welcomeUser; 
+export default profile; 
