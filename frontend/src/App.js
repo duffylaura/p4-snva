@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './pages/home';
 import Login from './components/login';
 import Register from "./components/register";
-import WelcomeUser from './components/welcomeUser';
+import Profile from './pages/profile';
 import Wildcard from './components/wildcard';
 import './App.css';
 
@@ -15,7 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/welcomeUser" element={< WelcomeUser />} />
+        <Route path="/profile" element={< Profile />} />
         <Route path="*" element={<Wildcard />} />
       </Routes>
     </BrowserRouter>

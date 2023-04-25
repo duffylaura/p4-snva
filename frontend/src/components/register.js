@@ -46,10 +46,12 @@ const Register = (props) => {
         try {
             const booleanResponse = await registerPostRoute (formState);
                 // FUTURE TODO: set status of user Auth.login (data.login.token)
+                //create token for user
+
             if (booleanResponse) { 
                 //If successfully logged in, redirect user to next page
                 console.log("User has been registered."); 
-                navigate("/welcomeUser");
+                navigate("/profile");
             } else {
                 console.log("There was an error in registering you. Try again")
                 alert("Please register. Click OK to try again.")

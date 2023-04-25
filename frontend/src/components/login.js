@@ -13,6 +13,7 @@ import {
 import {ColorRing} from 'react-loader-spinner';
 import Navbar from '../components/navbar';
 
+
 const Login  = (props) => { 
 
     //set up navigation variable for redirection if successfully logged in
@@ -46,11 +47,11 @@ const Login  = (props) => {
 
         try { 
             const booleanResponse = await loginAuthRoute (formState);
-                // FUTURE TODO: set status of user Auth.login (data.login.token)
+                 // FUTURE TODO: set status of user Auth.login (data.login.token)
             if (booleanResponse) { 
                 //If successfully logged in, redirect user to next page
                 console.log("user is logged in"); 
-                navigate("/welcomeUser");
+                navigate("/profile");
             } else {
                 console.log("You are not logged in. No such user exists.")
                 alert("This user does not exist. Please register. Click OK to redirect to Registration.")
