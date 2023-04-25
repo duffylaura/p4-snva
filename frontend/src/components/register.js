@@ -10,7 +10,8 @@ import {
     MDBInput
   }
   from 'mdb-react-ui-kit';
-  import {ColorRing} from 'react-loader-spinner';
+import {ColorRing} from 'react-loader-spinner';
+import Navbar from '../components/navbar';
   
 const Register = (props) => {
     // set up navigation variable for redirection if successfully logged in
@@ -85,6 +86,8 @@ const Register = (props) => {
          ) : (
          // render login form or next page content
 
+        <div> 
+        < Navbar />  
         <MDBContainer className="my-5 gradient-form">
 
         <MDBRow>
@@ -177,7 +180,7 @@ const Register = (props) => {
         </MDBRow>
   
       </MDBContainer>
-
+      </div>
       )}
       </div>
 )}

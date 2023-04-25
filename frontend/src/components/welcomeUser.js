@@ -5,9 +5,14 @@ import {
   MDBCol,
 }
 from 'mdb-react-ui-kit';
+import Navbar from '../components/navbar';
 
 const welcomeUser = () => {
     return (
+
+     <div>
+
+    < Navbar />
 
     <MDBContainer className="my-5 gradient-form">
 
@@ -43,6 +48,7 @@ const welcomeUser = () => {
       </MDBRow>
 
     </MDBContainer>
+    </div>
     )
 }
 
