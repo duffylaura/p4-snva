@@ -10,6 +10,7 @@ import {
     MDBInput
   }
   from 'mdb-react-ui-kit';
+import {ColorRing} from 'react-loader-spinner';
 
 const Login  = (props) => { 
 
@@ -18,6 +19,9 @@ const Login  = (props) => {
 
     // set initial form state to empty strings 
     const [formState, setFormState] = useState({email:'', password: ''});
+
+    // create state variable that tracks loading state 
+    const [isLoading, setIsLoading] = useState(false); 
 
     // Handle change function 
     // update state based on form input changes
@@ -36,7 +40,10 @@ const Login  = (props) => {
         
         console.log("formState is:  " + formState); 
 
-        try {
+        // When loading process is initiated, set loading state to true
+        setIsLoading(true);
+
+        try { 
             const booleanResponse = await loginAuthRoute (formState);
                 // FUTURE TODO: set status of user Auth.login (data.login.token)
             if (booleanResponse) { 
@@ -51,15 +58,35 @@ const Login  = (props) => {
         } catch (e) {
             console.error(e); 
         }
-        // // clear form values
+        // clear form values
         setFormState({
             email: '', 
             password: '',
         });
+
+        //set loading state to false 
+        setIsLoading(false);
     };
 
 
     return (
+      //In the return statement of your component, render the loader code conditionally based on the loading state.
+
+      <div>
+      {isLoading ? (
+        <ColorRing
+          visible={true}
+          height="200"
+          width=""
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={['#DE793B', '#C8444E', '#C8444F', '#CB466F', '#A94D8E']}
+        />
+        ) : (
+        // render login form or next page content
+     
+
         <MDBContainer className="my-5 gradient-form">
 
         <MDBRow>
@@ -124,7 +151,9 @@ const Login  = (props) => {
         </MDBRow>
   
       </MDBContainer>
-      );
-    }
+
+  )}
+  </div>
+)}
 
 export default Login; 
