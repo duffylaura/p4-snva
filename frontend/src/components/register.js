@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import {registerPostRoute} from '../utils/apiUtils';
 import {
     MDBBtn,
     MDBContainer,
@@ -17,32 +17,6 @@ const Register = (props) => {
 
     //set initial form state to empty strings 
     const [formState, setFormState] = useState({email: '', firstName: '', lastName: '', mobileNumber: '', password: ''}); 
-
-    //function to use signup post route 
-    const registerPostRoute = async (data) => {
-        const options = {
-            method: 'POST',
-            url: 'http://localhost:8077/api/v1/user/signup',
-            headers: {'Content-Type': 'application/json'},
-            data: {
-                email: data.email,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                mobileNumber: data.mobileNumber,
-                password: data.password
-            }
-        };
-
-        const response = await axios.request(options); 
-
-        console.log(response); 
-
-        if (response !== null) {
-            return true
-        } else {
-            return false
-        }
-    }
 
     // Handle change function 
     // update state based on form input changes

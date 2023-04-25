@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import {loginAuthRoute} from '../utils/apiUtils';
 import {
     MDBBtn,
     MDBContainer,
@@ -19,31 +19,6 @@ const Login  = (props) => {
     // set initial form state to empty strings 
     const [formState, setFormState] = useState({email:'', password: ''});
 
-    //function to use login authentication post route 
-    const loginAuthRoute =  async (data) => {
-       const options = {
-            method: 'POST',
-            url: 'http://localhost:8077/api/v1/user/authenticate',
-            headers: {'Content-Type': 'application/json'},
-            data: {email: data.email, password: data.password}
-          };
-          console.log("Dheeraj " + options); 
-          
-        const response = await axios.request(options); 
-        
-        const responseStatus = await response.data.status; 
-
-        if (responseStatus === 'success') {
-            console.log("Success - You have been logged in.")
-            return true; 
-        } else {
-            console.log("You were unable to be logged in.")
-            return false; 
-        }     
-
-    };
-
-
     // Handle change function 
     // update state based on form input changes
     const handleChange = (event) => {
@@ -54,7 +29,6 @@ const Login  = (props) => {
             [name]: value,
         });
     };
-
 
     // Submit form function 
     const handleFormSubmit = async (event) => {
