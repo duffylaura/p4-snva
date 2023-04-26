@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {loginAuthRoute} from '../utils/apiUtils';
@@ -13,12 +12,9 @@ import {
 import {ColorRing} from 'react-loader-spinner';
 import Navbar from '../components/navbar';
 
-
-
 const Login  = (props) => { 
 
-    //set up navigation variable for redirection if successfully logged in
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     // set initial form state to empty strings 
     const [formState, setFormState] = useState({email:'', password: ''});
@@ -30,7 +26,6 @@ const Login  = (props) => {
     // update state based on form input changes
     const handleChange = (event) => {
         const { name, value } = event.target;
-        // console.log(formState);
         setFormState({
             ...formState,
             [name]: value,
@@ -40,23 +35,16 @@ const Login  = (props) => {
     // Submit form function 
     const handleFormSubmit = async (event) => {
         event.preventDefault(); 
-        
-        console.log("formState is:  " + formState); 
 
         // When loading process is initiated, set loading state to true
         setIsLoading(true);
 
         try { 
-            const booleanResponse = await loginAuthRoute (formState);
-                 // FUTURE TODO: set status of user Auth.login (data.login.token)
-            if (booleanResponse) { 
-                //If successfully logged in, redirect user to next page
-                console.log("user is logged in"); 
-                navigate("/profile");
-            } else {
-                console.log("You are not logged in. No such user exists.")
-                alert("This user does not exist. Please register. Click OK to redirect to Registration.")
-                navigate("/register");
+            const boolean = await loginAuthRoute (formState);
+            // if successful, will redirect to profile page
+            if (boolean === false) {
+              alert ('Unable to login. Try again.')
+              navigate('/');
             }
         } catch (e) {
             console.error(e); 
@@ -71,9 +59,9 @@ const Login  = (props) => {
         setIsLoading(false);
     };
 
-
     return (
-      //In the return statement of your component, render the loader code conditionally based on the loading state.
+      //In the return statement of your component, 
+      // render the loader code conditionally based on the loading state.
 
       <div>
       {isLoading ? (
@@ -116,8 +104,6 @@ const Login  = (props) => {
                         value = {formState.email}
                         onChange = {handleChange}
                         />
-             
-        
 
                     <MDBInput 
                         wrapperClass='mb-4'
@@ -128,9 +114,7 @@ const Login  = (props) => {
                         value = {formState.password}
                         onChange = {handleChange}
                     />
-       
-  
-  
+
               <div className="text-center pt-1 mb-5 pb-1">
                 <MDBBtn className="mb-4 w-100 gradient-custom-2"> Login </MDBBtn>
               </div>
