@@ -1,6 +1,8 @@
+//  The Auth class is a utility class that will be used to manage the user's authentication state.
+
 // import decode so we can decode the token and get the user's data out of it
 import decode from "jwt-decode";
-//  The Auth class is a utility class that will be used to manage the user's authentication state.
+
 class Auth {
   getProfile() {
     return decode(this.getToken());
@@ -35,12 +37,11 @@ class Auth {
   // The login() method takes a token as an argument and stores it in localStorage and redirects the user to the home page.
   login(idToken) {
     localStorage.setItem("id_token", idToken);
-    // window.location.assign("/");
+
   }
   // The logout() method removes the token from localStorage and reloads the page.
   logout() {
     localStorage.removeItem("id_token");
-    window.location.replace("/");
   }
 }
 

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {registerPostRoute} from '../utils/apiUtils';
@@ -14,8 +13,8 @@ import {ColorRing} from 'react-loader-spinner';
 import Navbar from '../components/navbar';
   
 const Register = (props) => {
-    // set up navigation variable for redirection if successfully logged in
-    const navigate = useNavigate(); 
+
+    const navigate = useNavigate();
 
     //set initial form state to empty strings 
     const [formState, setFormState] = useState({email: '', firstName: '', lastName: '', mobileNumber: '', password: ''}); 
@@ -27,7 +26,6 @@ const Register = (props) => {
     // update state based on form input changes
     const handleChange = (event) => {
         const { name, value } = event.target;
-        // console.log(formState);
         setFormState({
             ...formState,
             [name]: value,
@@ -37,26 +35,18 @@ const Register = (props) => {
     // Submit form function 
     const handleFormSubmit = async (event) => {
         event.preventDefault(); 
-        
-        console.log("formState is:  " + formState); 
 
         // When loading process is initiated, set loading state to true
         setIsLoading(true);
 
         try {
-            const booleanResponse = await registerPostRoute (formState);
-                // FUTURE TODO: set status of user Auth.login (data.login.token)
-                //create token for user
+            const boolean = await registerPostRoute (formState);
 
-            if (booleanResponse) { 
-                //If successfully logged in, redirect user to next page
-                console.log("User has been registered."); 
-                navigate("/profile");
-            } else {
-                console.log("There was an error in registering you. Try again")
-                alert("Please register. Click OK to try again.")
-                navigate("/register");
+            if (boolean === false ) {
+              alert ("Could not register new user. Try again.")
+              navigate('/'); 
             }
+  
         } catch (e) {
             console.error(e); 
         }
