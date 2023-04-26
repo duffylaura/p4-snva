@@ -1,8 +1,5 @@
-import React from "react";
-import { createRoot } from 'react-dom/client';
 import axios from 'axios';
 import Auth from '../utils/auth';
-import Profile from '../pages/profile';
 import * as jose from 'jose'
 
 //function to use login authentication post route 
@@ -47,26 +44,19 @@ export const loginAuthRoute =  async (data) => {
                 const email = await response.data.user.email;
                 const mobile = await response.data.user.mobileNumber; 
                 const profilePictureURL = await response.data.user.profilePicture; 
-                const pass = {
+                const profileObject = {
                     firstName: firstName, 
                     lastName: lastName, 
                     email: email, 
                     mobile: mobile,
                     profilePictureURL: profilePictureURL}
-    
-            // render Profile with passed in props 
-            const container = document.getElementById('root');
-            const root = createRoot(container); 
-            root.render(<Profile pass={pass} />);
+                return profileObject; 
         }
          else {
             return false;
         }     
 
     };
-
-
-
 
 
 //function to use signup post route 
@@ -127,24 +117,15 @@ export const registerPostRoute = async (data) => {
         const email = await response.data.user.email;
         const mobile = await response.data.user.mobileNumber; 
         const profilePictureURL = await response.data.user.profilePicture; 
-        const pass = {
+        const profileObject = {
             firstName: firstName, 
             lastName: lastName, 
             email: email, 
             mobile: mobile,
             profilePictureURL: profilePictureURL}
-    
-        // render Profile with passed in props 
-        const container = document.getElementById('root');
-        const root = createRoot(container); 
-        root.render(<Profile pass={pass} />);
+        return profileObject; 
     }
     else {
         return false;
     }        
 }
-
-// function to get user information 
-// actually using the auth route because can't access 'get profile' Post route 
-// So, passed information as props over to profile 
-

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createRoot } from 'react-dom/client';
 import { useNavigate } from "react-router-dom";
 import {registerPostRoute} from '../utils/apiUtils';
 import {
@@ -11,8 +12,13 @@ import {
   from 'mdb-react-ui-kit';
 import {ColorRing} from 'react-loader-spinner';
 import Navbar from '../components/navbar';
+import Profile from '../pages/profile'; 
   
 const Register = (props) => {
+
+    var a = 0; 
+
+    var profileObject; 
 
     const navigate = useNavigate();
 
@@ -38,27 +44,47 @@ const Register = (props) => {
 
         // When loading process is initiated, set loading state to true
         setIsLoading(true);
-
-        try {
-            const boolean = await registerPostRoute (formState);
-
-            if (boolean === false ) {
-              alert ("Could not register new user. Try again.")
-              navigate('/'); 
-            }
-  
+        try { 
+            profileObject = await registerPostRoute (formState);
+            
+            // if successful, will redirect to profile page
+            if (profileObject === false) {
+              alert ('Unable to login. Try again.')
+              navigate('/');
+            } else {
+            // Dheeraj: wanted create state, put profileObject in it, pass state to component / props, render to profile
+            a = 1; 
+          }
         } catch (e) {
             console.error(e); 
         }
-        // // clear form values
-        setFormState({email: '', 
-        firstName: '', 
-        lastName: '', 
-        mobileNumber: '', 
-        password: ''});
 
+      // clear form values
+      setFormState({email: '', 
+      firstName: '', 
+      lastName: '', 
+      mobileNumber: '', 
+      password: ''});
+        
         //set loading state to false 
-        setIsLoading(false);
+        setIsLoading(false); 
+
+        if (a === 1) {
+
+        // render Profile with passed in props 
+        const container = document.getElementById('root');
+        const root = createRoot(container); 
+        root.render(
+          <Profile 
+            firstName = { profileObject.firstName }
+            lastName = {profileObject.lastName}
+            email = {profileObject.email}
+            mobileNumber={profileObject.mobileNumber}
+            profilePictureURL={profileObject.profilePictureURL}
+          />
+          );
+
+        }
     };
 
     return (

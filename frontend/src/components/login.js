@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createRoot } from 'react-dom/client';
 import { useNavigate } from "react-router-dom";
 import {loginAuthRoute} from '../utils/apiUtils';
 import {
@@ -11,8 +12,13 @@ import {
   from 'mdb-react-ui-kit';
 import {ColorRing} from 'react-loader-spinner';
 import Navbar from '../components/navbar';
+import Profile from '../pages/profile'; 
 
 const Login  = (props) => { 
+
+    var a = 0; 
+
+    var profileObject; 
 
     const navigate = useNavigate();
 
@@ -40,23 +46,42 @@ const Login  = (props) => {
         setIsLoading(true);
 
         try { 
-            const boolean = await loginAuthRoute (formState);
+            profileObject = await loginAuthRoute (formState);
+            
             // if successful, will redirect to profile page
-            if (boolean === false) {
+            if (profileObject === false) {
               alert ('Unable to login. Try again.')
               navigate('/');
-            }
+            } else {
+            // Dheeraj: wanted create state, put profileObject in it, pass state to component / props, render to profile
+            a = 1; 
+          }
         } catch (e) {
             console.error(e); 
         }
-        // clear form values
-        setFormState({
-            email: '', 
-            password: '',
-        });
 
+        // clear form values
+        setFormState({ email: '', password: ''});
+        
         //set loading state to false 
-        setIsLoading(false);
+        setIsLoading(false); 
+
+        if (a === 1) {
+
+        // render Profile with passed in props 
+        const container = document.getElementById('root');
+        const root = createRoot(container); 
+        root.render(
+          <Profile 
+            firstName = { profileObject.firstName }
+            lastName = {profileObject.lastName}
+            email = {profileObject.email}
+            mobileNumber={profileObject.mobileNumber}
+            profilePictureURL={profileObject.profilePictureURL}
+          />
+          );
+
+        }
     };
 
     return (
