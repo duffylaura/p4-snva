@@ -1,3 +1,4 @@
+import React from "react";
 import { createRoot } from 'react-dom/client';
 import axios from 'axios';
 import Auth from '../utils/auth';
@@ -45,11 +46,13 @@ export const loginAuthRoute =  async (data) => {
                 const lastName = await response.data.user.lastName;
                 const email = await response.data.user.email;
                 const mobile = await response.data.user.mobileNumber; 
+                const profilePictureURL = await response.data.user.profilePicture; 
                 const pass = {
                     firstName: firstName, 
                     lastName: lastName, 
                     email: email, 
-                    mobile: mobile}
+                    mobile: mobile,
+                    profilePictureURL: profilePictureURL}
     
             // render Profile with passed in props 
             const container = document.getElementById('root');
@@ -84,6 +87,7 @@ export const registerPostRoute = async (data) => {
     await axios.request(options); 
 
     // New User was created. 
+
     // Now login new user  
 
     const loginOptions = {
@@ -122,11 +126,13 @@ export const registerPostRoute = async (data) => {
         const lastName = await response.data.user.lastName;
         const email = await response.data.user.email;
         const mobile = await response.data.user.mobileNumber; 
+        const profilePictureURL = await response.data.user.profilePicture; 
         const pass = {
             firstName: firstName, 
             lastName: lastName, 
             email: email, 
-            mobile: mobile}
+            mobile: mobile,
+            profilePictureURL: profilePictureURL}
     
         // render Profile with passed in props 
         const container = document.getElementById('root');

@@ -10,13 +10,10 @@ import Auth from '../utils/auth';
 
 const profile = (props) => {
 
-  if (Auth.loggedIn()) {
+  if (Auth.loggedIn()) {   // Auth.loggedIn --> If there is a token and it's not expired, return `true`
 
-  // const {firstName, lastName, email, mobile } = props;
+  // const {firstName, lastName, email, mobile, profilePictureURL } = props;
   
-  console.log(props);
-
-  // Auth.loggedIn --> If there is a token and it's not expired, return `true`
     return (
 
      <div>

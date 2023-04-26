@@ -49,8 +49,6 @@ export default function logout () {
         </MDBRow>
 
         </MDBContainer>           
-                </div>
+        </div>
     )
-
-
 }
