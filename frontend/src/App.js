@@ -6,6 +6,7 @@ import Login from './components/login';
 import Register from "./components/register";
 import Profile from './pages/profile';
 import Wildcard from './components/wildcard';
+import Logout from './components/logout'; 
 import './App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={< Profile />} />
+        <Route path='/logout' element={<Logout />} />
         <Route path="*" element={<Wildcard />} />
       </Routes>
     </BrowserRouter>

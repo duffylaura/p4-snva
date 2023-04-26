@@ -2,8 +2,6 @@ import { createRoot } from 'react-dom/client';
 import axios from 'axios';
 import Auth from '../utils/auth';
 import Profile from '../pages/profile';
-// import jose to encrypt token in Auth.login 
-// import { base64url, EncryptJWT } from 'jose';
 import * as jose from 'jose'
 
 //function to use login authentication post route 
@@ -28,6 +26,7 @@ export const loginAuthRoute =  async (data) => {
 
         const jwt = await new jose.SignJWT({ foo: "bar" })
         .setProtectedHeader({ alg: "HS256" })
+        .setExpirationTime('2h')
         .sign(secret);
 
         console.log(jwt); // eyJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.iPFY1ibZc5dTBzRD46ma-Du0avf20nYKtQQsgnyf7ZM
@@ -41,14 +40,7 @@ export const loginAuthRoute =  async (data) => {
 
         if (responseStatus === 'success') {
             console.log("Success - You have been logged in.")
-
-            //Pass props to profile 
-            
-            if (responseStatus === 'success') {
-                console.log("Success - You have been logged in.")
-    
-                //Pass props to profile 
-
+               //Pass props to profile 
                 const firstName = await response.data.user.firstName;
                 const lastName = await response.data.user.lastName;
                 const email = await response.data.user.email;
@@ -59,19 +51,12 @@ export const loginAuthRoute =  async (data) => {
                     email: email, 
                     mobile: mobile}
     
-            //     //Render the Profile component with the pass object as a prop
-            //     ReactDOM.render(<Profile pass={pass} />, document.getElementById('root'));
-    
-            //     // redirect to profile 
-            //     window.location.replace('/profile');
-            // 
-
+            // render Profile with passed in props 
             const container = document.getElementById('root');
-            const root = createRoot(container); // createRoot(container!) if you use TypeScript
+            const root = createRoot(container); 
             root.render(<Profile pass={pass} />);
         }
-
-        } else {
+         else {
             return false;
         }     
 
@@ -108,17 +93,18 @@ export const registerPostRoute = async (data) => {
         data: {email: data.email, password: data.password}
     };
     
-    const loginResponse = await axios.request(loginOptions); 
+    const response = await axios.request(loginOptions); 
 
     //////////////  JWT Local Storage REGISTER --> LOGIN Token ///////////////
 
         //create token from response using user ID
-        const userId  =  await loginResponse.data.user.id;
+        const userId  =  await response.data.user.id;
         
         const secret = new TextEncoder().encode(userId);
 
         const jwt = await new jose.SignJWT({ foo: "bar" })
         .setProtectedHeader({ alg: "HS256" })
+        .setExpirationTime('2h')
         .sign(secret);
 
         console.log(jwt); // eyJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.iPFY1ibZc5dTBzRD46ma-Du0avf20nYKtQQsgnyf7ZM
@@ -132,30 +118,24 @@ export const registerPostRoute = async (data) => {
 
     if (Auth.loggedIn()) {
         //Pass props to profile 
-        // redirect to profile 
-        const firstName = await loginResponse.data.user.firstName;
-        const lastName = await loginResponse.data.user.lastName;
-        const email = await loginResponse.data.user.email;
-        const mobile = await loginResponse.data.user.mobileNumber; 
+        const firstName = await response.data.user.firstName;
+        const lastName = await response.data.user.lastName;
+        const email = await response.data.user.email;
+        const mobile = await response.data.user.mobileNumber; 
         const pass = {
             firstName: firstName, 
             lastName: lastName, 
             email: email, 
             mobile: mobile}
-
-            // //Render the Profile component with the pass object as a prop
-            // ReactDOM.render(<Profile pass={pass} />, document.getElementById('root'));
-
-            // // redirect to profile 
-            // window.location.replace('/profile');
-
-            const container = document.getElementById('root');
-            const root = createRoot(container); // createRoot(container!) if you use TypeScript
-            root.render(<Profile pass={pass} />);
-
-    } else {
-        return false; 
-    }    
+    
+        // render Profile with passed in props 
+        const container = document.getElementById('root');
+        const root = createRoot(container); 
+        root.render(<Profile pass={pass} />);
+    }
+    else {
+        return false;
+    }        
 }
 
 // function to get user information 
