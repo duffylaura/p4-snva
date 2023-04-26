@@ -13,7 +13,7 @@ const profile = (props) => {
   if (Auth.loggedIn()) {   // Auth.loggedIn --> If there is a token and it's not expired, return `true`
 
   // const {firstName, lastName, email, mobile, profilePictureURL } = props;
-  
+
     return (
 
      <div>
@@ -35,8 +35,10 @@ const profile = (props) => {
 
         <MDBCol col='6' className="mb-5">
           <div className="d-flex flex-column justify-content-center gradient-custom-2 h-100 mb-4">   
-            <div className="text-white px-3 py-4 p-md-5 mx-md-4">
-            </div>
+          <img
+            src= {props.pass.profilePictureURL}
+            alt="user profile picture"
+          />
           </div>
         </MDBCol>
 
