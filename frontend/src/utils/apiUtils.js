@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {setAuthToken } from '../helpers/setAuthToken';
+// import {setAuthToken } from '../helpers/setAuthToken';
+import Auth from '../utils/auth';
 
 //function to use login authentication post route 
 export const loginAuthRoute =  async (data) => {
@@ -11,21 +12,15 @@ export const loginAuthRoute =  async (data) => {
         };
         
         const response = await axios.request(options); 
-        
-        console.log(response); 
-        //////////////  JWT Local Storage Tokens ///////////////
 
-        //get token from response
-        const token  =  await response.data.user.id;
+        //////////////  JWT Local Storage LOGIN Token ///////////////
+
+        //create token from response using user ID
+        const idToken  =  await response.data.user.id;
     
-        //set JWT token to local
-        localStorage.setItem("token", token);
-        
-        //set token to axios common header
-        setAuthToken(token);
-
-        console.log('token from LOGIN api call: ' + token)
-
+        // The Auth.login() method takes a token as an argument and stores it in localStorage
+        Auth.login(idToken); 
+    
         ///////////////////////////////////////////////////////
 
         const responseStatus = await response.data.status; 
@@ -59,33 +54,24 @@ export const registerPostRoute = async (data) => {
 
     // New User was created. Now get local storage token. Need response id number. 
 
-    const options2 = {
+    const loginOptions = {
         method: 'POST',
         url: 'http://localhost:8077/api/v1/user/authenticate',
         headers: {'Content-Type': 'application/json'},
         data: {email: data.email, password: data.password}
     };
     
-    const response2 = await axios.request(options2); 
-    
-    console.log('response2 ' + response2); 
+    const loginResponse = await axios.request(loginOptions); 
 
-    //////////////  JWT Local Storage Tokens ///////////////
+    //////////////  JWT Local Storage REGISTER --> LOGIN Token ///////////////
 
-     //get token from response
-     const token  =  await response2.data.user.id;
+     //create token from response using user ID
+     const idToken  =  await loginResponse.data.user.id;
 
-    //set JWT token to local
-    localStorage.setItem("token", token);
-    
-    //set token to axios common header
-    setAuthToken(token);
-
-    console.log('token from LOGIN api call: ' + token)
+    // The Auth.login() method takes a token as an argument and stores it in localStorage
+    Auth.login(idToken); 
 
     ///////////////////////////////////////////////////////
-
-    console.log(response); 
 
     if (response !== null) {
         return true
@@ -94,4 +80,6 @@ export const registerPostRoute = async (data) => {
     }
 }
 
-// export function {loginAuthRoute, registerPostRoute}
+// function to get user information 
+// actually using the auth route because can't access 'get profile' Post route 
+

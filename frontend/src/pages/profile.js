@@ -6,10 +6,11 @@ import {
 }
 from 'mdb-react-ui-kit';
 import Navbar from '../components/navbar';
-import getAuthToken from '../helpers/getAuthToken';
+import Auth from '../utils/auth';
 
 const profile = () => {
-  console.log('check token with get method ' + getAuthToken()); 
+  // Auth.loggedIn --> If there is a token and it's not expired, return `true`
+  if (Auth.loggedIn) {
     return (
 
      <div>
@@ -52,6 +53,10 @@ const profile = () => {
     </MDBContainer>
     </div>
     )
+} else {
+  alert('Your session has expired. Please login.');
+  window.location.assign('/login'); 
+}
 }
 
 export default profile; 

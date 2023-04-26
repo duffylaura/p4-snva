@@ -14,6 +14,7 @@ import {ColorRing} from 'react-loader-spinner';
 import Navbar from '../components/navbar';
 
 
+
 const Login  = (props) => { 
 
     //set up navigation variable for redirection if successfully logged in
